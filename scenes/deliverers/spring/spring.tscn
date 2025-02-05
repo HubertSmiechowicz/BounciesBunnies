@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://pnceynte3dh7"]
+
+[ext_resource type="Script" path="res://scenes/deliverers/spring/Spring.cs" id="1_4hkeq"]
+[ext_resource type="Texture2D" uid="uid://4781jyclhexf" path="res://assets/Items/spring_in.png" id="1_ggu65"]
+[ext_resource type="Texture2D" uid="uid://py1etl1rukuu" path="res://assets/Items/spring.png" id="3_robf1"]
+[ext_resource type="Texture2D" uid="uid://cr0mytvcvrwdc" path="res://assets/Items/spring_out.png" id="4_5kjyt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t8inn"]
+size = Vector2(146, 55)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjnyq"]
+size = Vector2(127, 4)
+
+[sub_resource type="Animation" id="Animation_u5im0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ggu65")]
+}
+
+[sub_resource type="Animation" id="Animation_i2ji0"]
+resource_name = "release"
+length = 0.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_robf1"), ExtResource("4_5kjyt"), ExtResource("3_robf1"), ExtResource("1_ggu65")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_krqfi"]
+_data = {
+"RESET": SubResource("Animation_u5im0"),
+"release": SubResource("Animation_i2ji0")
+}
+
+[node name="Spring" type="StaticBody2D"]
+script = ExtResource("1_4hkeq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ggu65")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_t8inn")
+
+[node name="Trigger" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
+position = Vector2(-0.5, -28)
+shape = SubResource("RectangleShape2D_xjnyq")
+
+[node name="Player" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_krqfi")
+}
+
+[connection signal="body_entered" from="Trigger" to="." method="_OnBodyEntered"]
