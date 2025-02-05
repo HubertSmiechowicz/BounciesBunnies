@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://4j82s70xqy42"]
+
+[ext_resource type="Script" path="res://scenes/enemies/enemy_trigger/EnemyTrigger.cs" id="1_8wywm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6q46s"]
+size = Vector2(193, 219)
+
+[node name="EnemyTrigger" type="Area2D"]
+script = ExtResource("1_8wywm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(86.5, 99.5)
+shape = SubResource("RectangleShape2D_6q46s")
+
+[connection signal="body_entered" from="." to="." method="_OnBunnyEntered"]

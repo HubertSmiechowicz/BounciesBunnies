@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=3 uid="uid://kr3m27h5sctp"]
+
+[ext_resource type="Script" path="res://scenes/traps/falling_spikes/FallingSpikes.cs" id="1_awhvc"]
+[ext_resource type="Texture2D" uid="uid://t3cq20d6b1ck" path="res://assets/Environment/spikes_bottom.png" id="1_h7p1q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gt5v4"]
+size = Vector2(96, 53)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wd2ej"]
+size = Vector2(97, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqkvf"]
+size = Vector2(185, 348)
+
+[sub_resource type="Animation" id="Animation_sbe7y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ewc6p"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pvlqj"]
+_data = {
+"RESET": SubResource("Animation_sbe7y"),
+"fall": SubResource("Animation_ewc6p")
+}
+
+[node name="FallingSpikes" type="Path2D"]
+script = ExtResource("1_awhvc")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-2, -1)
+rotates = false
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
+remote_path = NodePath("../../AnimatableBody2D")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+position = Vector2(-2, -1)
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+texture = ExtResource("1_h7p1q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(-1, 0.5)
+shape = SubResource("RectangleShape2D_gt5v4")
+disabled = true
+
+[node name="Damage" type="Area2D" parent="AnimatableBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/Damage"]
+position = Vector2(-1.5, 14.5)
+shape = SubResource("RectangleShape2D_wd2ej")
+
+[node name="Trigger" type="Area2D" parent="AnimatableBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/Trigger"]
+position = Vector2(-3.5, 148)
+shape = SubResource("RectangleShape2D_jqkvf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pvlqj")
+}
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="AnimatableBody2D/Damage" to="." method="_OnDamageEntered"]
+[connection signal="body_entered" from="AnimatableBody2D/Trigger" to="." method="_OnTriggerEntered"]
+[connection signal="timeout" from="Timer" to="." method="_OnTimerTimeout"]

@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://brlsn8b4gxlal"]
+
+[ext_resource type="Texture2D" uid="uid://ds5j3jex7g8ew" path="res://assets/Background/bg_layer1.png" id="1_t2twa"]
+[ext_resource type="PackedScene" uid="uid://r6e1rsxapnls" path="res://scenes/bunny/bunny.tscn" id="2_7ig4q"]
+[ext_resource type="PackedScene" uid="uid://cxvnasufwasw" path="res://scenes/platforms/static_platform/static_platform.tscn" id="3_o1ir0"]
+[ext_resource type="Texture2D" uid="uid://du81lxmbgjefa" path="res://assets/Environment/ground_cake.png" id="4_1dfua"]
+[ext_resource type="PackedScene" uid="uid://bf5kdqs37x1nu" path="res://scenes/enemies/spike_man/spike_man.tscn" id="15_vclhm"]
+
+[node name="Game" type="Node2D"]
+position = Vector2(22, 85)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1519, -172)
+scale = Vector2(2.37549, 1.31787)
+texture = ExtResource("1_t2twa")
+
+[node name="Bunny" parent="." instance=ExtResource("2_7ig4q")]
+position = Vector2(124, 52)
+scale = Vector2(0.7, 0.7)
+_JumpImpulse = 700.0
+_HurtTime = 0.5
+_HurtImpulse = 200.0
+_SwingingTime = 0.4
+
+[node name="Camera2D" type="Camera2D" parent="Bunny"]
+scale = Vector2(1.42857, 1.42857)
+limit_bottom = 1000
+limit_smoothed = true
+
+[node name="StaticPlatform" parent="." instance=ExtResource("3_o1ir0")]
+position = Vector2(165, 186)
+_SpriteTexture = ExtResource("4_1dfua")
+
+[node name="StaticPlatform2" parent="." instance=ExtResource("3_o1ir0")]
+z_index = 2
+position = Vector2(476, 187)
+_SpriteTexture = ExtResource("4_1dfua")
+
+[node name="StaticPlatform3" parent="." instance=ExtResource("3_o1ir0")]
+z_index = 1
+position = Vector2(787, 182)
+_SpriteTexture = ExtResource("4_1dfua")
+
+[node name="SpikeMan" parent="." instance=ExtResource("15_vclhm")]
+position = Vector2(787, 78)
+_HurtTime = 0.5
