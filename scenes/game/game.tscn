@@ -15,9 +15,9 @@ scale = Vector2(2.37549, 1.31787)
 texture = ExtResource("1_t2twa")
 
 [node name="Bunny" parent="." instance=ExtResource("2_7ig4q")]
-position = Vector2(124, 52)
+position = Vector2(798, 53)
 scale = Vector2(0.7, 0.7)
-_JumpImpulse = 700.0
+_JumpImpulse = 1000.0
 _HurtTime = 0.5
 _HurtImpulse = 200.0
 _SwingingTime = 0.4
@@ -41,6 +41,19 @@ z_index = 1
 position = Vector2(787, 182)
 _SpriteTexture = ExtResource("4_1dfua")
 
-[node name="SpikeMan" parent="." instance=ExtResource("15_vclhm")]
-position = Vector2(787, 78)
+[node name="StaticPlatform4" parent="." instance=ExtResource("3_o1ir0")]
+z_index = 1
+position = Vector2(-315.999, 198)
+scale = Vector2(1.66284, 1.31787)
+_SpriteTexture = ExtResource("4_1dfua")
+
+[node name="SpikeMan" parent="." node_paths=PackedStringArray("_Platform") instance=ExtResource("15_vclhm")]
+position = Vector2(1389, -57)
+_Platform = NodePath("../StaticPlatform5")
 _HurtTime = 0.5
+
+[node name="StaticPlatform5" parent="." instance=ExtResource("3_o1ir0")]
+z_index = 1
+position = Vector2(1346, 66)
+scale = Vector2(1.66284, 1.31787)
+_SpriteTexture = ExtResource("4_1dfua")

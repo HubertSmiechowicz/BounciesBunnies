@@ -4,7 +4,7 @@ using System;
 
 public partial class StaticPlatform : StaticBody2D
 {
-	private Sprite2D _Sprite;
+	public Sprite2D _Sprite;
 
 	[Export]
 	[ExportGroup("Properties")]

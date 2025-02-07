@@ -24,11 +24,11 @@ namespace BounciesBunnies.scenes.enemies
 
         [Export]
         [ExportGroup("Movement")]
-        private float _Distance = 100f;
+        internal float _Distance = 100f;
 
         [Export]
         [ExportGroup("Movement")]
-        private float _Speed = 100f;
+        internal float _Speed = 100f;
 
         [Export]
         [ExportGroup("Movement")]
@@ -56,7 +56,7 @@ namespace BounciesBunnies.scenes.enemies
 
         [Export]
         [ExportGroup("Attack")]
-        private float _AttackRange = 150f;
+        internal float _AttackRange = 100f;
 
         internal AnimationTree _AnimationTree;
         internal Timer _Timer;
@@ -99,36 +99,19 @@ namespace BounciesBunnies.scenes.enemies
 
         #region _Move()
 
-        private void _Move(double delta)
+        internal virtual void _Move(double delta)
         {
             Vector2 velocity = Velocity;
-            if (!_IsTriggered)
-            {
-                if (Position.X < _StartPosition.X - _Distance)
-                    _Direction = 1f;
-                else if (Position.X > _StartPosition.X + _Distance)
-                    _Direction = -1f;
-            }
-            else
-            {
-                if (_Bunny != null)
-                {
-                    if (Position.X > _Bunny.Position.X)
-                        _Direction = -1f;
-                    else
-                        _Direction = 1f;
-                }
-            }
 
             if (!_IsHurt)
             {
 
-                if (_Bunny != null && Math.Abs(Position.X - _Bunny.Position.X) <= _AttackRange && !_IsAttacking)
+                if (_Bunny != null && Math.Abs(Position.X - _Bunny.Position.X) <= _AttackRange && Math.Abs(Position.X - _Bunny.Position.X) > _AttackRange - 50 && !_IsAttacking)
                     _IsAttacking = true;
 
                 velocity.X = _Direction * _Speed;
 
-                velocity.Y += _Gravity * (float)delta;
+                velocity.Y += _Gravity * (float)delta; 
 
             }
             else
